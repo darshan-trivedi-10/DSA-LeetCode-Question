@@ -1,5 +1,16 @@
 class Solution
 {
+    bool _equal(char c1, char c2)
+    {
+        if (c1 == '(' && c2 == ')')
+            return true;
+        if (c1 == '[' && c2 == ']')
+            return true;
+        if (c1 == '{' && c2 == '}')
+            return true;
+        return false;
+    }
+
 public:
     bool isValid(string s)
     {
@@ -12,21 +23,18 @@ public:
             {
                 st.push(ch);
             }
-            else if (!st.empty())
+            else if (s[i] == ')' || s[i] == ']' || s[i] == '}')
             {
-                int ob = st.top();
-                if ((ob == '(' and ch == ')') || (ob == '[' and ch == ']') || (ob == '{' and ch == '}'))
-                {
-                    st.pop();
-                }
-                else
+                if (st.empty())
                 {
                     return false;
                 }
-            }
-            else
-            {
-                return false;
+                int ob = st.top();
+                st.pop();
+                if (!_equal(ob, ch))
+                {
+                    return false;
+                }
             }
         }
         return st.empty();
