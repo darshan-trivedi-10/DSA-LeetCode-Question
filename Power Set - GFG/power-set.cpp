@@ -15,7 +15,7 @@ public:
         for (int num = 0; num < (1 << n); num++)
         {
             string sub = "";
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < 32; i++)
             {
                 // check is the i-th bit is set or not
                 if (num & (1 << i))
@@ -34,8 +34,6 @@ public:
         return ans;
     }
 };
-
-		    
 
 
 // { Driver Code Starts.
