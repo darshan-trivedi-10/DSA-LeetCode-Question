@@ -8,7 +8,7 @@ public:
             return {};
         }
         vector<int> postorder;
-        stack<TreeNode *> s1, s2;
+        stack<TreeNode *> s1;
         s1.push(root);
 
         while (!s1.empty())
@@ -30,7 +30,6 @@ public:
         
         reverse(postorder.begin(), postorder.end());
         
-
         return postorder;
     }
 };
