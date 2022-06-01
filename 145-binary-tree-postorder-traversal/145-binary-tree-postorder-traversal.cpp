@@ -15,7 +15,7 @@ public:
         {
             TreeNode *temp = s1.top();
             s1.pop();
-            s2.push(temp);
+            postorder.push_back(temp->val);
 
             if (temp->left)
             {
@@ -27,12 +27,9 @@ public:
                 s1.push(temp->right);
             }
         }
-
-        while (!s2.empty())
-        {
-            postorder.push_back(s2.top()->val);
-            s2.pop();
-        }
+        
+        reverse(postorder.begin(), postorder.end());
+        
 
         return postorder;
     }
