@@ -47,7 +47,6 @@ public:
             {
                 if (grid[i][j] == 1 and visited[i][j] == false)
                 {
-                    cout << i << " " << j << " ";
                     ans = max(ans, area(grid, i, j, visited));
                     cout << ans << endl;
                 }
