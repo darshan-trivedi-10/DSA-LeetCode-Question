@@ -1,42 +1,46 @@
-class Solution
-{
-    bool isValid(char ch)
-    {
-        return (ch <= '9' and ch >= '0') || (ch >= 'a' and ch <= 'z') || (ch >= 'A' and ch <= 'Z');
+class Solution {
+    
+    bool isValid(char ch){
+        return (ch>='a' and ch<='z') || (ch>='A' and ch<='Z') || (ch>='0' and ch<='9');
     }
-
+    
+    string myReverse(string &str, int s, int e){
+        
+        string temp = "";
+        while(s<=e){
+            temp.push_back(str[s]);
+            s++;
+        }
+        
+        reverse(temp.begin(), temp.end());
+        return temp;
+    }
+    
+    
 public:
-    string reverseWords(string s)
-    {
-        int n = s.size();
-        string ans = "", word = "";
-        bool space = false;
-        for (int i = n-1; i >= 0; i--)
-        {
-            if (isValid(s[i]))
-            {
-                space = true;
-                word.push_back(s[i]);
-            }
-            else if (space)
-            {
-                reverse(word.begin(), word.end());
-                word += " ";
-                ans += word;
-                word = "";
-                space = false;
-            }
-        }
+    string reverseWords(string str) {
+        int n = str.size();
+        int i = 0, j = 0;
         
-        if(space){
-            reverse(word.begin(), word.end()); 
-            ans += word;
-        }
-        
-        if(!isValid(ans[ans.size()-1])){
-            ans.pop_back();  
-        }
+        string ans = "";
+        while(i<n and j<=n){
 
+            if(!isValid(str[j]) and i==j){
+                i++,j++;
+            }else if(!isValid(str[j])){
+                if(ans.size()>0){
+                    ans = ans + " ";
+                }
+                ans = ans + myReverse(str, i,j-1);
+                i = j+1;
+                j = j+1;
+            }else{
+                j++;
+            }
+        }
+        
+        reverse(ans.begin(), ans.end());
         return ans;
+
     }
 };
