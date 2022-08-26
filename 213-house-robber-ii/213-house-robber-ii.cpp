@@ -17,7 +17,7 @@ class Solution {
             prev2 = prev;
             prev = curr;
         }
-        cout<<prev<<" ";
+        // cout<<prev<<" ";
         return prev;
     }
     
