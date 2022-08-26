@@ -1,29 +1,35 @@
 class Solution {
     
-    int robMax(vector<int> &nums, vector<pair<int,bool>> &dp, int idx, int n, bool first){
-        cout<<idx<<" "<<first<<endl;
-        if(idx>=n || (idx==n-1 and first==true)){
+    int robMax(vector<int>& nums, int s,int e) {
+        if(s<0 and s>= nums.size() and e>nums.size()){
             return 0;
         }
         
-        if(dp[idx].first != -1 and dp[idx].second==first){
-            return dp[idx].first;
+        int prev = nums[s], prev2;
+        for(int i = s+1; i<e; i++){
+            // dp[i] = max(dp[i-1], nums[i]);
+            int curr = max(prev, nums[i]);
+            if(i>1){ 
+                // dp[i] = max(dp[i-2] + nums[i], dp[i]);
+                curr = max(prev2 + nums[i], curr);
+            }
+            
+            prev2 = prev;
+            prev = curr;
         }
-        
-        cout<<1<<endl;
-        int firstHouseRob = robMax(nums,dp,idx+2,n, (idx==0?true:first)) + nums[idx];
-        cout<<2<<endl;
-        int secondHouseRob = robMax(nums,dp,idx+1,n, first);
-        dp[idx].first = max(firstHouseRob,secondHouseRob), dp[idx].second = first;
-        
-        return dp[idx].first;
+        cout<<prev<<" ";
+        return prev;
     }
     
 public:
-    int rob(vector<int>& nums) {
+    int rob(vector<int>& nums) { 
         int n = nums.size();
         
-        vector<pair<int,bool>> dp(n, {-1,0});
-        return robMax(nums, dp, 0, n, false);        
+        int ans = robMax(nums, 0, n-1);
+        if(nums.size()>1){
+            ans = max(ans,robMax(nums, 1, n));
+        }
+        
+        return ans;
     }
 };
