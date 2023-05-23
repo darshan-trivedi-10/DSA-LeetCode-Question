@@ -1,24 +1,19 @@
 class KthLargest {
-    private: 
-    int K = 0;
-    multiset<int> numbers;
+private:
+    int K;
+    std::multiset<int> numbers;
+
 public:
-    KthLargest(int k, vector<int>& nums) {
+    KthLargest(int k, const std::vector<int>& nums)  {
         K = k;
-        for(int i = 0; i < nums.size(); i++){
-            numbers.insert(nums[i]);
+        for(int ele : nums){
+            numbers.insert(ele);
         }
     }
-    
+
     int add(int val) {
         numbers.insert(val);
-        int KthElement = *next(numbers.begin(), numbers.size() - K);
-        return KthElement;
+        auto kthElementIter = std::next(numbers.begin(), numbers.size() - K);
+        return *kthElementIter;
     }
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
