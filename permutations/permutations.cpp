@@ -1,30 +1,26 @@
 class Solution {
 
-    void generate(vector<int> &nums, vector<int> &ds, vector<bool> &visited, vector<vector<int>> &premutations){
-        if(ds.size() == nums.size()){
-            premutations.push_back(ds);
+    void generate(vector<int> &nums, vector<vector<int>> &premutations, int idx){
+        if(idx == nums.size()){
+            premutations.push_back(nums);
             return;
         }
 
-        for(int i = 0; i < nums.size(); i++){
-            if(!visited[i]){
-                ds.push_back(nums[i]);
-                visited[i] = true;
-                generate(nums, ds, visited, premutations);
-                ds.pop_back();
-                visited[i] = false;
-            }
+        for(int i = idx; i < nums.size(); i++){
+            
+            swap(nums[i], nums[idx]);
+            generate(nums, premutations, idx + 1);
+            swap(nums[i], nums[idx]);
         }
 
     }
 
+
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         int n = nums.size();
-        vector<bool> visited(nums.size(), false);
-        vector<int> ds;
         vector<vector<int>> premutations;
-        generate(nums, ds, visited, premutations);
+        generate(nums, premutations, 0);
 
         return premutations;
     }
