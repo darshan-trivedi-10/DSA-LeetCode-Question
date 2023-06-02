@@ -11,6 +11,15 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+
+        if(l1 == NULL){
+            return l2;
+        }
+
+        if(l2 == NULL){
+            return l1;
+        }
+
         ListNode *head = NULL, *tail = NULL;
 
         while(l1 != NULL && l2 != NULL){
