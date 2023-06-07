@@ -1,24 +1,26 @@
 class Solution {
 public:
     int minFlips(int a, int b, int c) {
+        int flips = 0;
 
-        int minflips = 0;
+        while (a > 0 || b > 0 || c > 0) {
+            int bitA = a & 1;
+            int bitB = b & 1;
+            int bitC = c & 1;
 
-        for(int i = 0; i < 32; i++){
-            int a_bit = ((1 << i) & a) ? 1 : 0;
-            int b_bit = ((1 << i) & b) ? 1 : 0;
-            int c_bit = ((1 << i) & c) ? 1 : 0;
-
-
-            if(c_bit == 1){
-                if(a_bit == 0 && b_bit == 0){
-                    minflips++;
+            if ((bitA | bitB) != bitC) {
+                if (bitC == 1) {
+                    flips++;
+                } else {
+                    flips += bitA + bitB;
                 }
-            }else{
-                minflips += a_bit + b_bit;
             }
+
+            a >>= 1;
+            b >>= 1;
+            c >>= 1;
         }
 
-        return minflips;
+        return flips;
     }
 };
