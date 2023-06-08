@@ -1,24 +1,35 @@
 class Solution {
 public:
-    bool isValid(string s) {
-        int size = s.size();
-        
-        stack<char> st;
-        for(int i = 0; i < size; i++){
-            if(s[i] == '(' || s[i] == '{' || s[i] == '['){
-                st.push(s[i]);
-            }else{
-                if(st.empty()){
+    bool isValid(const std::string& str) {
+        int size = str.size();
+        std::stack<char> brackets;
+        std::unordered_map<char, char> matchingBrackets = {
+            {')', '('},
+            {'}', '{'},
+            {']', '['}
+        };
+
+        for (int i = 0; i < size; i++) {
+            char currentChar = str[i];
+            if (isOpeningBracket(currentChar)) {
+                brackets.push(currentChar);
+            } else {
+                if (brackets.empty()) {
                     return false;
                 }
-                char ch = st.top();
-                if(!((ch == '(' && s[i] == ')') || (ch == '{' && s[i] == '}') || (ch == '[' && s[i] == ']'))){
+                char topChar = brackets.top();
+                if (matchingBrackets[currentChar] != topChar) {
                     return false;
                 }
-                st.pop();
+                brackets.pop();
             }
         }
 
-        return st.empty();
+        return brackets.empty();
+    }
+
+private:
+    bool isOpeningBracket(char ch) {
+        return ch == '(' || ch == '{' || ch == '[';
     }
 };
