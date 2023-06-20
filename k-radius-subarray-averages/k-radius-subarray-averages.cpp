@@ -1,37 +1,31 @@
 class Solution {
 public:
-    vector<int> getAverages(vector<int>& nums, int k) {
+    vector<int> getAverages(vector<int>& nums, int windowSize) {
         const int size = nums.size();
-
-        int left = 0, right = 0;
         vector<int> averages(size, -1);
 
-        long long front = 0, back = 0;
+        long long sumFront = 0, sumBack = 0;
 
-        for(int i = 0; i < k; i++){
-            if(i < size){
-                back += nums[i];
+        for (int i = 0; i < windowSize; i++) {
+            if (i < size) {
+                sumBack += nums[i];
             }
         }
 
-        for(int i = 0; i < size; i++){
-            if(i > k){
-                front += nums[i] - nums[i-k-1];
-            }else{
-                front += nums[i];
+        for (int i = 0; i < size; i++) {
+            if (i > windowSize) {
+                sumFront += nums[i] - nums[i - windowSize - 1];
+            } else {
+                sumFront += nums[i];
             }
 
-            if(i + k < size){
-                cout<<endl;
-                // cout<<nums[i]<<" "<<nums[i+k]<<" "<<back<<" ";
-                back = back - nums[i] + nums[i+k]; 
+            if (i + windowSize < size) {
+                sumBack = sumBack - nums[i] + nums[i + windowSize];
             }
 
-            if(i >= k && i + k < size){
-                // cout<<i<<" "<<front<<" "<<back<<endl;
-                averages[i] = (front + back)/(2*k + 1);
+            if (i >= windowSize && i + windowSize < size) {
+                averages[i] = (sumFront + sumBack) / (2 * windowSize + 1);
             }
-
         }
 
         return averages;
