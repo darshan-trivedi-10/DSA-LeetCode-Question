@@ -1,21 +1,25 @@
 class Solution {
 
-    int Helper(vector<int> &nums, int left, int right){
+    int Helper(vector<int> &nums, vector<vector<int>> &dp, int left, int right){
         if(left == right){
             return nums[left];
         }
 
-        int leftScore = nums[left] - Helper(nums, left + 1, right);
-        int rightScore = nums[right] - Helper(nums, left, right - 1);
+        if(dp[left][right] != -1){
+            return dp[left][right];
+        }
 
-        return max(leftScore, rightScore);
+        int leftScore = nums[left] - Helper(nums, dp,left + 1, right);
+        int rightScore = nums[right] - Helper(nums,dp, left, right - 1);
+
+        return dp[left][right] = max(leftScore, rightScore);
     }
 
 public:
     bool PredictTheWinner(vector<int>& nums) {
         int size = nums.size();
         vector<vector<int>> dp (size, vector<int>(size, -1));
-        return Helper(nums, 0, nums.size() - 1) >= 0;
+        return Helper(nums, dp, 0, nums.size() - 1) >= 0;
     }
 };
 
