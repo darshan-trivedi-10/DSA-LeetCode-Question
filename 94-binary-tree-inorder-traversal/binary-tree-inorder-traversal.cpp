@@ -13,10 +13,11 @@ class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> nodes;
-        stack<TreeNode*> st;
 
+        stack<TreeNode*> st;
         while(true){
-            if(root != NULL){
+            // cout<<st.size()<<" ";
+            if(root != nullptr){
                 st.push(root);
                 root = root->left;
             }else{
@@ -26,15 +27,11 @@ public:
                 root = st.top();
                 nodes.push_back(root->val);
                 st.pop();
-                root = root->right; 
+                root = root->right;
             }
-
         }
 
         return nodes;
-
-
-
-        return nodes;
+        
     }
 };
