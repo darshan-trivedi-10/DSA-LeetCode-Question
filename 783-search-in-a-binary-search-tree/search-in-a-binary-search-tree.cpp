@@ -16,14 +16,21 @@ public:
             return root;
         }
 
-        if(root->val == val){
-            return root;
+        TreeNode *temp = root;
+        while(temp != nullptr){
+            int currVal = temp->val;
+            if(currVal == val){
+                break;
+            }
+            if(currVal > val){
+                temp = temp->left;
+            }
+
+            if(currVal < val){
+                temp = temp->right;
+            }
         }
 
-        if(root->val > val){
-            return searchBST(root->left, val);
-        }
-        
-        return searchBST(root->right, val);
+        return temp;
     }
 };
