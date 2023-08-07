@@ -12,7 +12,7 @@
 class Solution {
     vector<int> res;
     void build(TreeNode *root, int k){
-        if(root == nullptr){
+        if(root == nullptr || res.size() == k){
             return;
         }
 
@@ -25,6 +25,9 @@ class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
         build(root, k);
+        for(auto it : res){
+            cout<<it<<" ";
+        }
         sort(res.begin(), res.end());
         return res[k-1];
     }
