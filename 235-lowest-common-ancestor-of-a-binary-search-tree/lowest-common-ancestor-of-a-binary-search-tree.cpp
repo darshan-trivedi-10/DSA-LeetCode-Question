@@ -15,6 +15,13 @@ public:
             return root;
         }
 
+        int minV = min(p->val, q->val);
+        int maxV = max(p->val, q->val);
+
+        if(root->val > minV && root->val < maxV){
+            return root;
+        }
+
         TreeNode *left = lowestCommonAncestor(root->left, p, q);
         TreeNode *right = lowestCommonAncestor(root->right, p, q);
 
