@@ -1,32 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
-private:
-    int findNextGreaterIndex(const vector<int> &preorder, int currentIndex) {
-        int size = preorder.size();
-        int i = currentIndex + 1;
-        while (i < size) {
-            if (preorder[currentIndex] < preorder[i]) {
-                break;
-            }
-            i++;
-        }
-        return i;
-    }
 
-    TreeNode* buildBSTFromPreorder(const vector<int> &preorder, int start, int end) {
-        if (start > end) {
+private :
+    TreeNode *build(vector<int> &arr, int &i, int bound){
+        if(i == arr.size() || arr[i] > bound){
             return nullptr;
         }
-        TreeNode *root = new TreeNode(preorder[start]);
-        int nextGreaterIndex = findNextGreaterIndex(preorder, start);
 
-        root->left = buildBSTFromPreorder(preorder, start + 1, nextGreaterIndex - 1);
-        root->right = buildBSTFromPreorder(preorder, nextGreaterIndex, end);
+        TreeNode *root = new TreeNode(arr[i++]);
+        root->left = build(arr, i, root->val);
+        root->right = build(arr, i, bound);
 
         return root;
     }
 
 public:
-    TreeNode* bstFromPreorder(const vector<int> &preorder) {
-        return buildBSTFromPreorder(preorder, 0, preorder.size() - 1);
+    TreeNode* bstFromPreorder(vector<int>& arr) {
+        int i = 0;
+        return build(arr, i, INT_MAX);
     }
 };
