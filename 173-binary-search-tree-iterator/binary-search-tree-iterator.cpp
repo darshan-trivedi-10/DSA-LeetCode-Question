@@ -11,46 +11,32 @@
  */
 class BSTIterator {
 
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> nodes;
-
-        stack<TreeNode*> st;
-        while(true){
-            // cout<<st.size()<<" ";
-            if(root != nullptr){
-                st.push(root);
-                root = root->left;
-            }else{
-                if(st.empty()){
-                    break;
-                }
-                root = st.top();
-                nodes.push_back(root->val);
-                st.pop();
-                root = root->right;
-            }
-        }
-
-        return nodes;
-    }
-
-    int idx = 0;
-    vector<int> inorder;
+    TreeNode *root;
+    stack<TreeNode*> nodeStack;
 
 
 public:
     BSTIterator(TreeNode* root) {
-        idx = -1;
-        inorder = inorderTraversal(root);
+        this->root = root;
     }
     
     int next() {
-        idx++;
-        return inorder[idx];
+
+        // going this the left node in tree/subtree
+        while(root != nullptr){
+            nodeStack.push(root);
+            root = root->left;
+        }
+
+        TreeNode *node = nodeStack.top();
+        nodeStack.pop();
+        int val = node->val; 
+        root = node->right; // now go to the right becuase left is nullptr
+        return val;
     }
     
     bool hasNext() {
-        return ((idx + 1) != inorder.size());
+        return (!nodeStack.empty() || root != nullptr);
     }
 };
 
