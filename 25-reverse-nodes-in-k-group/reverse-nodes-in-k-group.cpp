@@ -1,37 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
-public:
-    int lengthOfLinkedList(ListNode* head){
-        ListNode* temp = head;
+    int lengthOfLL(ListNode *head){
+        ListNode *temp = head;
         int length = 0;
-        while(temp!=NULL){
+
+        while(temp != nullptr){
             temp = temp->next;
             length++;
         }
+
         return length;
     }
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if(head==NULL || head->next==NULL){
+
+    ListNode *reverseKGroup(ListNode *head, int k , int length){
+        if(length < k){
             return head;
         }
-        ListNode * dummyHead = new ListNode(0);
-        dummyHead->next = head;
-        ListNode* prev = dummyHead;
-        ListNode* cur = head;
-        ListNode* next = NULL;
-        int length=lengthOfLinkedList(head);
-        while(length>=k){
-            cur = prev->next;
-            next = cur->next; 
-            for(int i=1;i<k;i++){
-                cur->next = next->next;
-                next->next = prev->next;
-                prev->next = next;
-                next = cur->next;
-            }
-            prev = cur;
-            length-=k;
+
+        int count = 0;
+        ListNode *prev = nullptr, *next = nullptr, *curr = head;
+        while(count < k && curr != nullptr){
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            count++;
         }
 
-        return dummyHead->next;
+        if(next != nullptr){
+            head->next = reverseKGroup(next, k, length - k);
+        }
+
+        return prev;
+    }
+
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        int length = lengthOfLL(head);
+        return reverseKGroup(head, k, length);
     }
 };
