@@ -18,15 +18,15 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         vector<int> dp(nums.size(), 0);
-        dp[0] = nums[0];
+        int prev1 = nums[0], prev2 = 0;
 
         for(int i = 1; i < nums.size(); i++){
-            dp[i] = max(nums[i], dp[i-1]);
-            if(i > 1){
-                dp[i] = max(dp[i], nums[i] + dp[i-2]);
-            }
+            int notPick = prev1;
+            int pick = nums[i] + (i > 1 ? prev2 : 0);
+            prev2 = prev1;
+            prev1 = max(pick, notPick);
         }
 
-        return dp[nums.size() - 1];      
+        return prev1;      
     }
 };
