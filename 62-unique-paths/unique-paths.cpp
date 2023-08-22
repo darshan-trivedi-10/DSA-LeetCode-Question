@@ -25,7 +25,26 @@ class Solution {
 
 public:
     int uniquePaths(int n, int m) {
-        vector<vector<int>> dp(n, vector<int> (m, -1));
-        return findPath(0, 0, n, m, dp);
+        // vector<vector<int>> dp(n, vector<int> (m, -1));
+        // return findPath(0, 0, n, m, dp);
+
+        vector<vector<int>> dp(n, vector<int> (m, 0));
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(i == 0 && j == 0){
+                    dp[i][j] = 1;
+                    continue;
+                }
+                if(i > 0){
+                    dp[i][j] += dp[i-1][j];
+                }
+                if(j > 0){
+                    dp[i][j] += dp[i][j-1];
+                }
+            }
+        }
+
+        return dp[n-1][m-1];
     }
 };
