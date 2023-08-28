@@ -34,23 +34,27 @@ public:
         // return minSum;
         int n = matrix.size();
         
-        vector<vector<int>> dp(n, vector<int> (n, INT_MAX));
+        // vector<vector<int>> dp(n, vector<int> (n, INT_MAX));
+        vector<int> prev(n, INT_MAX);
         int minPathSum = INT_MAX;
 
         for(int i = 0; i < n; i++){
             int currPathSum = INT_MAX;
+            vector<int> curr(n, INT_MAX);
             for(int j = 0; j < n; j++){
                 if(i == 0){
-                    dp[i][j] = matrix[i][j];
-                    currPathSum = min(currPathSum, dp[i][j]);              
+                    curr[j] = matrix[i][j];
+                    currPathSum = min(currPathSum, curr[j]);              
                     continue;
                 }
-                int top = dp[i-1][j];
-                int topLeft = j > 0 ? dp[i-1][j-1] : INT_MAX;
-                int topRight = j < n - 1 ? dp[i-1][j + 1] : INT_MAX;
-                dp[i][j] = matrix[i][j] + min({top, topLeft, topRight});  
-                currPathSum = min(currPathSum, dp[i][j]);              
+                int top = prev[j];
+                int topLeft = j > 0 ? prev[j-1] : INT_MAX;
+                int topRight = j < n - 1 ? prev[j+1] : INT_MAX;
+                curr[j] = matrix[i][j] +  min({top, topLeft, topRight});  
+                currPathSum = min(currPathSum, curr[j]);   
             }
+
+            prev = curr;
             minPathSum = currPathSum;
         }
 
