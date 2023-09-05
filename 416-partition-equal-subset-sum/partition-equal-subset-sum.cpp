@@ -22,8 +22,33 @@ public:
         if(sum & 1){
             return false;
         }
+        sum /= 2;
 
-        vector<vector<int>> dp(nums.size(), vector<int> ((sum/2) + 1, -1));
-        return partitionHelper(nums, dp, 0, sum/2);
+        int n = nums.size();
+        vector<vector<bool>> dp(nums.size(), vector<bool> (sum + 1, false));
+        // index, sum
+        for(int i = 0; i < n; i++){
+            dp[i][0] = true;
+        }
+
+        for(int i = 1; i < n; i++){
+            for(int j = 1; j <= sum; j++){
+                bool notTake = dp[i-1][j];
+                bool take = false;
+                if(nums[i] <= j){
+                    take = dp[i-1][j - nums[i]];
+                }
+
+                dp[i][j] = notTake || take;
+            }
+        }
+
+        return dp[n-1][sum];
+
+
+
+
+
+
     }
 };
